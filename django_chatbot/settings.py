@@ -12,50 +12,52 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import environ
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env()
-DEBUG = env.bool(var:"DJANGO_DEBUG", default:False)
+#env = environ.Env()
+#DEBUG = env.bool(var:"DJANGO_DEBUG", default:False)
 
-if DEBUG:
-    ALLOWED_HOSTS = ['*']
-else:
-    ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
-SECRET_KEY = env.str('DJANGO_SECRET_KEY')
-DATABASES = {
-    "default": env.db("DATABASE_URL")
-}
-DATABASES['default']["ATOMIC_REQUESTS"] = True
-DATABASES['default']["CONN_MAX_AGE"] = env.int(var:"CONN_MAX_AGE", default=60)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#if DEBUG:
+ #   ALLOWED_HOSTS = ['*']
+#else:
+#    ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
+#SECRET_KEY = env.str('DJANGO_SECRET_KEY')
+#DATABASES = {
+ #   "default": env.db("DATABASE_URL")
+#}
+#DATABASES['default']["ATOMIC_REQUESTS"] = True
+#DATABASES['default']["CONN_MAX_AGE"] = env.int(var:"CONN_MAX_AGE", default=60)
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-LOGGING = {
-    'version':1,
-    'disable_existing_loggers': False,
-    'handlers':{
-        'console':{
-            'class':'logging.StreamHandler'
-        }
-    },
-    'loggers':{
-        '':{
-            'handlers':['console'],
-            'level':'DEBUG'
-        }
-    }
-}
+#LOGGING = {
+    #'version':1,
+    #'disable_existing_loggers': False,
+    #'handlers':{
+        #'console':{
+            #'class':'logging.StreamHandler'
+        #}
+    #},
+    #'loggers':{
+     #   '':{
+            #'handlers':['console'],
+            #'level':'DEBUG'
+        #}
+    #}
+#}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-##SECRET_KEY = 'django-insecure-wsa9k4v_goql%t8rn@q4*5flo+xnnxa%8!^p2g(4g-=py==ur)'
+SECRET_KEY = 'django-insecure-wsa9k4v_goql%t8rn@q4*5flo+xnnxa%8!^p2g(4g-=py==ur)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-##DEBUG = True
+DEBUG = True
 
-##ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] #let any domain open the site 
 
 
 # Application definition
@@ -104,12 +106,12 @@ WSGI_APPLICATION = 'django_chatbot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#DATABASES = {
-    #'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
-   # }
-#}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -147,7 +149,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),)
+django_heroku.settings(locals())
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
