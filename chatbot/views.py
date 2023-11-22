@@ -15,8 +15,8 @@ openai_api_key = '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'
 openai.api_key = openai_api_key
 
 # Define condition types
-CONDITION_A = 'A'
-statement_1 = '1'
+CONDITION = 'A'
+statement = '1'
 
 # Function to ask OpenAI (Refactored to reduce redundancy)
 def ask_openai(message):
@@ -24,7 +24,7 @@ def ask_openai(message):
     response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages = [
-            {"role": "system", "content": "Provide responses that reflect a hypothetical context, in which it is believed that by next summer, half of the existing 2-year master's programs will be restructured into 1 ¼-year business-oriented master's programmess. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"}, 
+            {"role": "system", "content": "Provide responses that reflect a hypothetical context, in which it is believed that by next summer, half of the existing 2-year master's programmes will be restructured into 1 ¼-year business-oriented master's programmess. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"}, 
             {"role": "user", "content": message}
             ]
     )
@@ -40,8 +40,8 @@ def chatbot(request):
     if request.method == 'POST':
         message = request.POST.get('message')
         response = ask_openai(message)
-        condition = CONDITION_A 
-        statement = statement_1
+        condition = CONDITION
+        statement = statement
 
         chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now(), condition = condition, statement = statement)
         chat.save()

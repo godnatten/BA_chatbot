@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #    ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
 #SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 #DATABASES = {
- #   "default": env.db("DATABASE_URL")
+    #"default": env.db("DATABASE_URL")
 #}
 #DATABASES['default']["ATOMIC_REQUESTS"] = True
 #DATABASES['default']["CONN_MAX_AGE"] = env.int(var:"CONN_MAX_AGE", default=60)
@@ -48,6 +48,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
         #}
     #}
 #}
+
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -76,6 +80,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -107,12 +112,12 @@ WSGI_APPLICATION = 'django_chatbot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+#DATABASES = {
+  #  'default': {
+   #     'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': BASE_DIR / 'db.sqlite3',
+    #}
+#}
 
 
 # Password validation
@@ -153,6 +158,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 django_heroku.settings(locals())
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
