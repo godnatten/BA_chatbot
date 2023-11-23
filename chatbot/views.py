@@ -16,7 +16,7 @@ openai.api_key = openai_api_key
 
 # Define condition types
 CONDITION = 'A'
-statement = '1'
+statement = '3'
 
 # Function to ask OpenAI (Refactored to reduce redundancy)
 def ask_openai(message):
@@ -24,7 +24,7 @@ def ask_openai(message):
     response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages = [
-            {"role": "system", "content": "Provide responses that reflect a hypothetical context, in which it is believed that by next summer, half of the existing 2-year master's programmes will be restructured into 1 ¼-year business-oriented master's programmess. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"}, 
+            {"role": "system", "content": "Provide responses that reflect a hypothetical context, in which it is believed that the human body has an internal clock naturally following a ~ 24 hours cycle, even in total darkness. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"}, 
             {"role": "user", "content": message}
             ]
     )
