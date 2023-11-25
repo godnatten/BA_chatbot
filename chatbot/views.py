@@ -10,32 +10,30 @@ from .models import Chat
 #from json import dumps
 #from django.utils import timezone
 
-
-openai_api_key = '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'
+openai_api_key = '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'
 openai.api_key = openai_api_key
 
 # Define condition types
 CONDITION = 'A'
-statement_A = '3'
+statement_A = '3' 
 
 # Function to ask OpenAI (Refactored to reduce redundancy)
 def ask_openai(message):
        
     response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages = [
-            {"role": "system", "content": "Provide responses that reflect a context, in which it is believed that the human body has an internal clock naturally following a ~ 24 hours cycle, even in total darkness. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"}, 
-            {"role": "user", "content": message}
-            ]
+        model='gpt-4-1106-preview',
+        messages=[
+            {"role": "system", "content": "Provide responses that reflect a context, in which it is believed that the human body has an internal clock naturally following a ~ 24 hours cycle, even in total darkness. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"},  
+             {"role": "user", "content": message}
+        ]
     )
-    
+
     return response.choices[0].message.content.strip()
+
 
 # Optimized 'chatbot' view
 def chatbot(request):
-    if not request.user.is_authenticated:
-        return redirect('register') # Redirect to 'register if user is not authenticated
-    #chats = Chat.objects.filter(user=request.user)  # Fetch user's chat history
+    chat = Chat.objects.all()  # Fetch all chat history
 
     if request.method == 'POST':
         message = request.POST.get('message')
@@ -43,50 +41,21 @@ def chatbot(request):
         condition = CONDITION
         statement = statement_A
 
-        chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now(), condition = condition, statement = statement)
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            # Handle anonymous user here
+            user = None  # Or use a predefined user for anonymous chats
+
+        chat = Chat(user=user, message=message, response=response, created_at=timezone.now(), condition=condition, statement=statement)
         chat.save()
+        #print(chat)
+        #print(response)
+        #print(message)
         return JsonResponse({'message': message, 'response': response})
+
     return render(request, 'chatbot.html')
 
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(request, username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-            return redirect('chatbot')
-        else:
-            error_message = 'Something went wrong. Invalid user'
-            return render(request, 'login.html', {'error_message': error_message})
-    else:
-        return render(request, 'login.html')
-
-def register(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-
-        if password1 == password2:
-            try:
-                user = User.objects.create_user(username, email, password1)
-                user.save()
-                auth.login(request, user)
-                return redirect('chatbot')
-            except:
-                error_message = 'Oh Oh! Something went wrong'
-                return render(request, 'register.html', {'error_message': error_message})
-        else:
-            error_message = 'Passwords do not match'
-            return render(request, 'register.html', {'error_message': error_message})
-    return render(request, 'register.html')
-
-def logout(request):
-    auth.logout(request)
-    return redirect('login')
 
 
 

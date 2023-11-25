@@ -16,41 +16,12 @@ import django_heroku
 import dj_database_url
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-#env = environ.Env()
-#DEBUG = env.bool(var:"DJANGO_DEBUG", default:False)
-
-#if DEBUG:
- #   ALLOWED_HOSTS = ['*']
-#else:
-#    ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
-#SECRET_KEY = env.str('DJANGO_SECRET_KEY')
-#DATABASES = {
-    #"default": env.db("DATABASE_URL")
-#}
-#DATABASES['default']["ATOMIC_REQUESTS"] = True
-#DATABASES['default']["CONN_MAX_AGE"] = env.int(var:"CONN_MAX_AGE", default=60)
-#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-#LOGGING = {
-    #'version':1,
-    #'disable_existing_loggers': False,
-    #'handlers':{
-        #'console':{
-            #'class':'logging.StreamHandler'
-        #}
-    #},
-    #'loggers':{
-     #   '':{
-            #'handlers':['console'],
-            #'level':'DEBUG'
-        #}
-    #}
-#}
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    'default': dj_database_url.config(default='postgresql://vnuwvccsqyajtd:abe7576f01be975e3b2827804e11e2d378b632dfde0ac8a0cf4bc7c22cc530fb@ec2-35-172-26-41.compute-1.amazonaws.com:5432/d145uc053h07r0')
 }
 
 # Quick-start development settings - unsuitable for production
@@ -60,7 +31,7 @@ DATABASES = {
 SECRET_KEY = 'django-insecure-wsa9k4v_goql%t8rn@q4*5flo+xnnxa%8!^p2g(4g-=py==ur)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*'] #let any domain open the site 
 
@@ -93,7 +64,7 @@ ROOT_URLCONF = 'django_chatbot.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
