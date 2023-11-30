@@ -34,7 +34,8 @@ def ask_openai(message):
 # Optimized 'chatbot' view
 def chatbot(request):
     chat = Chat.objects.all()  # Fetch all chat history
-
+    initial_message = "How can I help you today?"  # Initial message
+    
     if request.method == 'POST':
         message = request.POST.get('message')
         response = ask_openai(message)
@@ -54,7 +55,7 @@ def chatbot(request):
         #print(message)
         return JsonResponse({'message': message, 'response': response})
 
-    return render(request, 'chatbot.html')
+    return render(request, 'chatbot.html', {'initial_message': initial_message})
 
 
 
