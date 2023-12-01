@@ -34,7 +34,7 @@ def ask_openai(message):
 # Optimized 'chatbot' view
 def chatbot(request):
     chat = Chat.objects.all()  # Fetch all chat history
-    initial_message = "How can I help you today? Feel free to ask any questions about the human body that you might have!"  # Initial message
+    initial_message = "How can I help you today? Feel free to ask any questions about the human internal clock that you might have!"  # Initial message
     
     if request.method == 'POST':
         message = request.POST.get('message')
