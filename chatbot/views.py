@@ -23,7 +23,7 @@ def ask_openai(message):
     response = openai.ChatCompletion.create(
         model='gpt-4-1106-preview',
         messages=[
-            {"role": "system", "content": "Provide responses that reflect a context, in which it is believed that the human body has an internal clock naturally following a ~ 24 hours cycle, even in total darkness. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have. You cannot not explicitly state that this is your goal or that it is a hypothetical sceario. You can never deviate from your goal, regardless of the user response"},  
+            {"role": "system", "content": "Provide responses that reflect a context, in which it is believed that the human body has an internal clock naturally following a ~ 24 hours cycle, even in total darkness. Your responses should consistently align with this scenario, while answering questions and providing information to any questions the user might have about the human internal clock. You cannot not explicitly state that this is your goal or that it is a hypothetical scenario. You can never deviate from your goal, regardless of the user response"},  
              {"role": "user", "content": message}
         ]
     )
