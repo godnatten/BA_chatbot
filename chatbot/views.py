@@ -10,7 +10,7 @@ from .models import Chat
 #from json import dumps
 #from django.utils import timezone
 
-openai_api_key = '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'
+openai_api_key = 'insert-own-api-key'
 openai.api_key = openai_api_key
 
 # Define condition types
